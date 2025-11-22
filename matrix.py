@@ -60,4 +60,33 @@ class Matrix:
         
         return determinant
     
+    def inverse(self):
+        # Calculate the inverse (only for square matrices with non-zero determinant)
+        if self.rows != self.cols:
+            raise ValueError("Inverse can only be calculated for square matrices")
+        
+        det = self.det()
+        if det == 0:
+            raise ValueError("Matrix is singular and cannot be inverted")
+        
+        # Create the matrix of minors
+        minors = [[0.0 for _ in range(self.cols)] for _ in range(self.rows)]
+        for i in range(self.rows):
+            for j in range(self.cols):
+                minor = Matrix([row[:j] + row[j+1:] for k, row in enumerate(self.data) if k != i])
+                minors[i][j] = minor.det()
+        
+        # Create the matrix of cofactors
+        cofactors = [[((-1) ** (i + j)) * minors[i][j] for j in range(self.cols)] for i in range(self.rows)]
+        
+        # Transpose the cofactor matrix to get the adjugate
+        adjugate = Matrix(cofactors).transpose()
+        
+        # Divide each element by the determinant to get the inverse
+        inverse_data = [[adjugate.data[i][j] / det for j in range(adjugate.cols)] for i in range(adjugate.rows)]
+        
+        return Matrix(inverse_data)
+    
+    
+    
 

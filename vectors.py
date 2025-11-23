@@ -133,8 +133,3 @@ class Vector3d(Vector2d):
 
     def length(self):
         return (self.x ** 2 + self.y ** 2 + self.z ** 2) ** 0.5
-
-a = Vector3d(-4, 4, 5)
-b = Vector3d(26, 34, -25)
-c = Vector3d(-20, -20, 20)
-print(a.crossp(b))

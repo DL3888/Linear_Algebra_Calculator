@@ -87,6 +87,39 @@ class Matrix:
         
         return Matrix(inverse_data)
     
+    def rref(self):
+        # I love python and it's way of rounding numbers so that it returns a fuck ass -0.00
+        def clean(x, eps=1e-10):
+            return 0.0 if abs(x) < eps else x
     
-    
+        A = [[float(x) for x in row] for row in self.data]
 
+        r = 0
+
+        for c in range(self.cols):
+            pivot = None
+            for i in range(r, self.rows):
+                if A[i][c] != 0:
+                    pivot = i
+                    break
+                
+            if pivot is None:
+                continue
+
+            A[r], A[pivot] = A[pivot], A[r]
+
+            pivot_value = A[r][c]
+            A[r] = [x / pivot_value for x in A[r]]
+
+            for i in range(self.rows):
+                if i != r and A[i][c] != 0:
+                    factor = A[i][c]
+                    A[i] = [A[i][j] - factor * A[r][j] for j in range(self.cols)]
+
+            r += 1
+            if r == self.rows:
+                break
+
+        A = [[clean(x) for x in row] for row in A]        
+        return Matrix(A)
+    

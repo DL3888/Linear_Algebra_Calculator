@@ -21,6 +21,28 @@ class Matrix:
         
         return Matrix(result)
     
+    def __eq__(self, other):
+        # Check if these goddamn matrices are equal
+        if self.rows != other.rows or self.cols != other.cols:
+            return False
+        
+        for i in range(self.rows):
+            for j in range(self.cols):
+                if self.data[i][j] != other.data[i][j]:
+                    return False
+        
+        return True
+    
+    def __sub__(self, other): 
+        # Subtract two calisse de matrices (only possible for the same dimensions)
+        # checked online to make sure sub works
+        if self.rows != other.rows or self.cols != other.cols:
+            raise ValueError("Matrices must have the same dimensions to subtract")
+        
+        result = [[self.data[i][j] - other.data[i][j] for j in range(self.cols)] for i in range(self.rows)]
+        
+        return Matrix(result)
+
     def __mul__(self, other):
         # Multiply two matrices (only possible if the number of columns in the first equals the number of rows in the second)
         if self.cols != other.rows:

@@ -145,3 +145,24 @@ class Matrix:
         A = [[clean(x) for x in row] for row in A]        
         return Matrix(A)
     
+    def augment(self, vector):
+        """Augment this matrix with a column vector (for solving Ax = b).
+        vector: list[float] or Matrix (column vector).
+        Returns a new augmented Matrix.
+        """
+        if not isinstance(vector, Matrix):
+            # Convert list to column matrix
+            vector = Matrix([[v] for v in vector])
+
+        if self.rows != vector.rows:
+            raise ValueError("Matrix rows must match vector length")
+        
+        if vector.cols != 1:
+            raise ValueError("Vector must be a single column")
+        
+        # Combine data: append vector column to each row
+        augmented_data = [row + [vector.data[i][0]] for i, row in enumerate(self.data)]
+        return Matrix(augmented_data)
+    
+    
+    

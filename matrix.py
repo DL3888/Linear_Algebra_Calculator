@@ -146,10 +146,8 @@ class Matrix:
         return Matrix(A)
     
     def augment(self, vector):
-        """Augment this matrix with a column vector (for solving Ax = b).
-        vector: list[float] or Matrix (column vector).
-        Returns a new augmented Matrix.
-        """
+        # Augment this matrix with a column vector (for solving Ax = b).
+        
         if not isinstance(vector, Matrix):
             # Convert list to column matrix
             vector = Matrix([[v] for v in vector])
